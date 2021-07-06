@@ -13,6 +13,8 @@ class ViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Storm View"
+        navigationController?.navigationBar.prefersLargeTitles = true
         loadImagesFromBundle()
         print(pictures)
     }
@@ -26,6 +28,7 @@ class ViewController: UITableViewController {
                 pictures.append(item)
             }
         }
+        pictures.sort()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,9 +41,15 @@ class ViewController: UITableViewController {
         return cell
     }
     
+    func giveTitleTextForDetailVC(_ index: Int) -> String {
+        "Picture \(index + 1) of \(pictures.count)"
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
-            vc.selectedImage = pictures[indexPath.row]
+            let index = indexPath.row
+            vc.selectedImage = pictures[index]
+            vc.titleBarText = giveTitleTextForDetailVC(index)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

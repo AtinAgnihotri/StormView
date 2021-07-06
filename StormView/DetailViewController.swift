@@ -10,18 +10,32 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet var stormImageView: UIImageView!
+    var titleBarText: String?
     var selectedImage: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        title = "View Picture: \(selectedImage ?? "Unknown Image")"
+        title = titleBarText
+        
+        navigationItem.largeTitleDisplayMode = .never
+        
         // Do any additional setup after loading the view.
         if let imageToLoad = selectedImage {
             stormImageView.image = UIImage(named: imageToLoad)
         }
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnTap = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnTap = false
+    }
     /*
     // MARK: - Navigation
 
