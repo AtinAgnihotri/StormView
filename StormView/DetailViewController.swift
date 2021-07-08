@@ -17,14 +17,32 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
 //        title = "View Picture: \(selectedImage ?? "Unknown Image")"
-        title = titleBarText
-        
-        navigationItem.largeTitleDisplayMode = .never
+        setTitle()
+        addShareButton()
         
         // Do any additional setup after loading the view.
         if let imageToLoad = selectedImage {
             stormImageView.image = UIImage(named: imageToLoad)
         }
+    }
+    
+    func setTitle() {
+        title = titleBarText
+        navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    func addShareButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+    }
+    
+    @objc func shareTapped() {
+        guard let image = stormImageView?.image?.jpegData(compressionQuality: 0.8) else {
+            print("No Image found!")
+            return
+        }
+        let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
