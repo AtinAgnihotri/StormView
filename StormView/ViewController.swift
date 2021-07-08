@@ -13,10 +13,25 @@ class ViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationTitle()
+        loadImagesFromBundle()
+        addRecommendButton()
+        print(pictures)
+    }
+    
+    func setNavigationTitle() {
         title = "Storm View"
         navigationController?.navigationBar.prefersLargeTitles = true
-        loadImagesFromBundle()
-        print(pictures)
+    }
+    
+    func addRecommendButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareAppTapped))
+    }
+    
+    @objc func shareAppTapped() {
+        let vc = UIActivityViewController(activityItems: ["If you like this app, please share it across"], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
     
     func loadImagesFromBundle() {
