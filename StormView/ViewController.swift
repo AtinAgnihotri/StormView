@@ -14,9 +14,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationTitle()
-        loadImagesFromBundle()
+        performSelector(inBackground: #selector(loadImagesFromBundle), with: nil)
         addRecommendButton()
-        print(pictures)
     }
     
     func setNavigationTitle() {
@@ -34,7 +33,7 @@ class ViewController: UITableViewController {
         present(vc, animated: true)
     }
     
-    func loadImagesFromBundle() {
+    @objc func loadImagesFromBundle() {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -44,6 +43,9 @@ class ViewController: UITableViewController {
             }
         }
         pictures.sort()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
