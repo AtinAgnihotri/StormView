@@ -24,6 +24,7 @@
 		852D57342693644D00734DF5 /* nssl0033.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 852D572A2693644D00734DF5 /* nssl0033.jpg */; };
 		852D57352693644D00734DF5 /* nssl0034.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 852D572B2693644D00734DF5 /* nssl0034.jpg */; };
 		85D296F4269405930005396B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D296F3269405930005396B /* DetailViewController.swift */; };
+		85EA50CD26AA8A5B0056103F /* StormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EA50CC26AA8A5B0056103F /* StormCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		852D572A2693644D00734DF5 /* nssl0033.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0033.jpg; sourceTree = "<group>"; };
 		852D572B2693644D00734DF5 /* nssl0034.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0034.jpg; sourceTree = "<group>"; };
 		85D296F3269405930005396B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		85EA50CC26AA8A5B0056103F /* StormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StormCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				852D57182693637B00734DF5 /* LaunchScreen.storyboard */,
 				852D571B2693637B00734DF5 /* Info.plist */,
 				852D57212693644D00734DF5 /* Content */,
+				85EA50CC26AA8A5B0056103F /* StormCell.swift */,
 			);
 			path = StormView;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				852D57122693637500734DF5 /* ViewController.swift in Sources */,
+				85EA50CD26AA8A5B0056103F /* StormCell.swift in Sources */,
 				852D570E2693637500734DF5 /* AppDelegate.swift in Sources */,
 				852D57102693637500734DF5 /* SceneDelegate.swift in Sources */,
 				85D296F4269405930005396B /* DetailViewController.swift in Sources */,
