@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UICollectionViewController {
 
     var pictures = [String]()
+    var clicks = [String: Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,15 +35,22 @@ class ViewController: UICollectionViewController {
     }
     
     @objc func loadImagesFromBundle() {
+        let clicksDict = UserDefaults.standard.dictionary(forKey: "clicks")
+        var cleanDict = [String: Int]()
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
         for item in items {
             if item.hasPrefix("nssl") {
                 pictures.append(item)
+                cleanDict[item] = 0
             }
         }
+        if !cleanDict.isEmpty {
+            clicks = clicksDict as? [String: Int] ?? cleanDict
+        }
         pictures.sort()
+        printClicks()
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
@@ -71,14 +79,25 @@ class ViewController: UICollectionViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             let index = indexPath.row
             vc.selectedImage = pictures[index]
+            updateClicks(for: index)
             vc.titleBarText = giveTitleTextForDetailVC(index)
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//    }
+    func updateClicks(for index: Int) {
+        let picture = pictures[index]
+        if let noOfClicks = clicks[picture] {
+            clicks[picture] = noOfClicks + 1
+            UserDefaults.standard.set(clicks, forKey: "clicks")
+        }
+    }
+    
+    func printClicks() {
+        for key in clicks.keys {
+            print("\(key) : \(clicks[key] ?? 0)")
+        }
+    }
 
 }
 
