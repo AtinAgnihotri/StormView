@@ -15,8 +15,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        assert(selectedImage != nil, "There is no image provided to load")
 
-//        title = "View Picture: \(selectedImage ?? "Unknown Image")"
         setTitle()
         addShareButton()
         
@@ -24,6 +25,38 @@ class DetailViewController: UIViewController {
         if let imageToLoad = selectedImage {
             stormImageView.image = UIImage(named: imageToLoad)
         }
+    }
+    
+    func getWatermarkedImage(with name: String) -> UIImage? {
+        if let image = UIImage(named: name) {
+            let renderer = UIGraphicsImageRenderer(size: image.size)
+            
+            let imageToDraw = renderer.image { context in
+                image.draw(at: CGPoint(x: 0, y: 0))
+                
+                let string = "From Storm View"
+                let watermark = getWatermarkString(for: string)
+                let watermarkRect = CGRect(x: 0, y: image.size.height / 2, width: image.size.width, height: 100)
+                watermark.draw(with: watermarkRect, options: .usesLineFragmentOrigin, context: nil)
+            }
+            
+            return imageToDraw
+        }
+        return nil
+    }
+    
+    func getWatermarkString(for string: String) -> NSAttributedString {
+        let paraStyle = NSMutableParagraphStyle()
+        paraStyle.alignment = .center
+        
+        let attrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 36, weight: .bold),
+            .backgroundColor: UIColor.black.cgColor,
+            .foregroundColor: UIColor.white.cgColor,
+            .paragraphStyle: paraStyle
+        ]
+        
+        return NSAttributedString(string: string, attributes: attrs)
     }
     
     func setTitle() {
@@ -36,16 +69,15 @@ class DetailViewController: UIViewController {
     }
     
     @objc func shareTapped() {
-        guard let image = stormImageView?.image?.jpegData(compressionQuality: 0.8) else {
-            print("No Image found!")
-            return
-        }
-        
         guard let imageName = selectedImage else {
             print("Invalid image name")
             return
         }
-        let vc = UIActivityViewController(activityItems: [imageName, image], applicationActivities: [])
+        guard let imageToShare = getWatermarkedImage(with: imageName)?.jpegData(compressionQuality: 0.8) else {
+            print("Failed watermarking image")
+            return
+        }
+        let vc = UIActivityViewController(activityItems: [imageName, imageToShare], applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(vc, animated: true)
     }
